@@ -18,8 +18,9 @@ EXTENSIONS = {
     'audio': [
         'aac', 'flac', 'm4a', 'mp3', 'oga', 'ogg', 'wav', 'wma'
     ],
+    #wafaa added new extensions for image raw format
     'image': [
-        'bmp', 'gif', 'jpeg', 'jpg', 'png', 'svg', 'webp'
+        'bmp', 'gif', 'jpeg', 'jpg', 'png', 'svg', 'webp', 'CR2', 'NEF'
     ],
     'subtitle': [
         'idx', 'srt', 'sub'
@@ -167,7 +168,9 @@ def avinfo(filename, cached=True):
             #remove metadata, can be broken
             reg = re.compile('"metadata": {.*?},', re.DOTALL)
             info = re.sub(reg, '', info)
-            info = json.loads(info)
+            #wafaa commented following line and added strict false to get rid of the JSONDecodeError: Invalid control characters
+            #info = json.loads(info)
+            info = json.loads(info, strict=False)            
         '''if 'video' in info:
             for v in info['video']:
                 if not 'display_aspect_ratio' in v and 'width' in v:
