@@ -20,7 +20,7 @@ EXTENSIONS = {
     ],
     #wafaa added new extensions for image raw format
     'image': [
-        'bmp', 'gif', 'jpeg', 'jpg', 'png', 'svg', 'webp', 'CR2', 'NEF'
+        'bmp', 'gif', 'jpeg', 'jpg', 'png', 'svg', 'webp', 'cr2', 'nef'
     ],
     'subtitle': [
         'idx', 'srt', 'sub'
@@ -171,11 +171,7 @@ def avinfo(filename, cached=True):
             #wafaa commented following line and added strict false to get rid of the JSONDecodeError: Invalid control characters
             #info = json.loads(info)
             info = json.loads(info, strict=False)            
-        '''if 'video' in info:
-            for v in info['video']:
-                if not 'display_aspect_ratio' in v and 'width' in v:
-                    v['display_aspect_ratio'] = '%d:%d' % (v['width'], v['height'])
-                    v['pixel_aspect_ratio'] = '1:1'     '''       
+        #wafaa
         if 'image' in info:
             for v in info['image']:
                 if not 'display_aspect_ratio' in v and 'width' in v:
@@ -229,12 +225,14 @@ def ffprobe(filename):
                 'height',
                 'bit_rate',
                 'index',
+                #wafaa
                 'display_aspect_ratio',
                 'sample_rate',
                 'channels',
             ]
             if s['codec_type'] == 'video':
                 keys += [
+                    #wafaa
                     'sample_aspect_ratio',
                     'r_frame_rate',
                     'pix_fmt',
@@ -254,6 +252,7 @@ def ffprobe(filename):
         else:
             pass
             #print s
+    #wafaa        
     for v in info['video']:
         if not 'display_aspect_ratio' in v and 'width' in v:
             v['display_aspect_ratio'] = '%d:%d' % (v['width'], v['height'])
